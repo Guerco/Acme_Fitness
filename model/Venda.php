@@ -6,7 +6,7 @@ require_once __DIR__.'/Variacao.php';
 
 class Venda{
 
-    private $variacoes_venda = [];
+    private $itens = [];
     private float $valor_frete = 10.0;
     private float $valor_total = 0.0;
 
@@ -54,8 +54,8 @@ class Venda{
         return $this->endereco;
     }
 
-    public function getVariacoesVenda(): array {
-        return $this->variacoes_venda;
+    public function getItens(): array {
+        return $this->itens;
     }
 
 
@@ -67,8 +67,8 @@ class Venda{
      * @param int $quantidade
      * @return void
      */
-    public function addVariacoesVenda(Variacao $variacao, int $quantidade): void {
-        $this->variacoes_venda[] = ['variacao' => $variacao, 'quantidade' => $quantidade];
+    public function addItens(Variacao $variacao, int $quantidade): void {
+        $this->itens[] = ['variacao' => $variacao, 'quantidade' => $quantidade];
         $this->valor_total = $this->calcularValorTotal();
     }
 
@@ -79,7 +79,7 @@ class Venda{
     public function calcularValorTotal() {
         $soma = 0;
 
-        foreach ( $this->variacoes_venda as $v ) {
+        foreach ( $this->itens as $v ) {
             $soma += $v['variacao']->getPreco() * $v['quantidade'] ;
         }
 
