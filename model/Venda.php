@@ -10,6 +10,13 @@ class Venda{
     private float $valor_frete = 10.0;
     private float $valor_total = 0.0;
 
+    /**
+     * @param int $id
+     * @param float $descontos
+     * @param string $forma_pagamento
+     * @param Cliente $cliente
+     * @param Endereco $endereco
+     */
     public function __construct(
         private int $id,
         private float $descontos,
@@ -55,18 +62,19 @@ class Venda{
     // Setters
 
     /**
-     * Adiciona na lista uma variação de um produto na venda e sua respectiva quantidade.
+     * Adiciona na lista uma variação de um produto na venda e sua respectiva quantidade, calculando automaticamente o valor da venda com as variações adicionadas.
      * @param Variacao $variacao
      * @param int $quantidade
      * @return void
      */
     public function addVariacoesVenda(Variacao $variacao, int $quantidade): void {
         $this->variacoes_venda[] = ['variacao' => $variacao, 'quantidade' => $quantidade];
+        $this->valor_total = $this->calcularValorTotal();
     }
 
     /**
-     * Calcula e preenche o valor total da Venda após o preenchimento das Variações selecionadas.
-     * @return void
+     * Calcula e retorna o valor total da Venda após o preenchimento das Variações selecionadas.
+     * @return float
      */
     public function calcularValorTotal() {
         $soma = 0;
@@ -75,7 +83,7 @@ class Venda{
             $soma += $v['variacao']->getPreco() * $v['quantidade'] ;
         }
 
-        $this->valor_total =  $soma + $this->valor_frete - $this->descontos;
+        return $soma + $this->valor_frete - $this->descontos;
     }
 }
 
