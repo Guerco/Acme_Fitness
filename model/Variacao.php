@@ -4,6 +4,15 @@ require_once __DIR__.'/Produto.php';
 
 class Variacao {
 
+    /**
+     * @param int $id
+     * @param string $tamanho
+     * @param string $peso
+     * @param string $cor
+     * @param float $preco
+     * @param int $estoque
+     * @param Produto $produto
+     */
     public function __construct(
         private int $id,
         private string $tamanho,

@@ -2,6 +2,11 @@
 
 class Categoria {
     
+    /**
+     * @param int $id
+     * @param string $nome
+     * @param string $descricao
+     */
     public function __construct(
         private int $id, 
         private string $nome, 

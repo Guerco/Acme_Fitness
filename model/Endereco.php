@@ -2,6 +2,15 @@
 
 class Endereco {
 
+    /**
+     * @param int $id
+     * @param string $logradouro
+     * @param string $cidade
+     * @param string $bairro
+     * @param string $numero
+     * @param string $cep
+     * @param string $complemento
+     */
     public function __construct(
         private int $id,
         private string $logradouro,

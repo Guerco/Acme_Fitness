@@ -53,10 +53,21 @@ class Venda{
 
 
     // Setters
+
+    /**
+     * Adiciona na lista uma variação de um produto na venda e sua respectiva quantidade.
+     * @param Variacao $variacao
+     * @param int $quantidade
+     * @return void
+     */
     public function addVariacoesVenda(Variacao $variacao, int $quantidade): void {
         $this->variacoes_venda[] = ['variacao' => $variacao, 'quantidade' => $quantidade];
     }
 
+    /**
+     * Calcula e preenche o valor total da Venda após o preenchimento das Variações selecionadas.
+     * @return void
+     */
     public function calcularValorTotal() {
         $soma = 0;
 

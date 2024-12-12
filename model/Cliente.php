@@ -2,6 +2,12 @@
 
 class Cliente {
 
+    /**
+     * @param int $id
+     * @param string $nome
+     * @param string $cpf
+     * @param DateTime $data_nascimento
+     */
     public function __construct(
         private int $id,
         private string $nome,

@@ -4,6 +4,14 @@ require_once __DIR__.'/Categoria.php';
 
 class Produto {
 
+    /**
+     * @param int $id
+     * @param string $nome
+     * @param string $imagem_path
+     * @param string $descricao
+     * @param DateTime $data_cadastro
+     * @param Categoria $categoria
+     */
     public function __construct(
         private int $id,
         private string $nome,
