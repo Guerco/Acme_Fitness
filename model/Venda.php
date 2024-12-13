@@ -18,43 +18,43 @@ class Venda{
      * @param Endereco $endereco
      */
     public function __construct(
-        private int $id,
-        private float $descontos,
-        private string $forma_pagamento,
-        private Cliente $cliente,
-        private Endereco $endereco
+        private ?int $id,
+        private ?float $descontos,
+        private ?string $forma_pagamento,
+        private ?Cliente $cliente,
+        private ?Endereco $endereco
     ){}
 
     // Getters
-    public function getId(): int {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getValorTotal(): float {
+    public function getValorTotal(): ?float {
         return $this->valor_total;
     }
 
-    public function getValorFrete(): float {
+    public function getValorFrete(): ?float {
         return $this->valor_frete;
     }
 
-    public function getDescontos(): float {
+    public function getDescontos(): ?float {
         return $this->descontos;
     }
 
-    public function getFormaPagamento(): string {
+    public function getFormaPagamento(): ?string {
         return $this->forma_pagamento;
     }
 
-    public function getCliente(): Cliente {
+    public function getCliente(): ?Cliente {
         return $this->cliente;
     }
 
-    public function getEndereco(): Endereco {
+    public function getEndereco(): ?Endereco {
         return $this->endereco;
     }
 
-    public function getItens(): array {
+    public function getItens(): ?array {
         return $this->itens;
     }
 

@@ -14,41 +14,41 @@ class Variacao {
      * @param Produto $produto
      */
     public function __construct(
-        private int $id,
-        private string $tamanho,
-        private string $peso,
-        private string $cor,
-        private float $preco,
-        private int $estoque,
-        private Produto $produto
+        private ?int $id,
+        private ?string $tamanho,
+        private ?string $peso,
+        private ?string $cor,
+        private ?float $preco,
+        private ?int $estoque,
+        private ?Produto $produto
     ) {}
 
     // Getters
-    public function getId(): int {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getTamanho(): string {
+    public function getTamanho(): ?string {
         return $this->tamanho;
     }
 
-    public function getPeso(): string {
+    public function getPeso(): ?string {
         return $this->peso;
     }
 
-    public function getCor(): string {
+    public function getCor(): ?string {
         return $this->cor;
     }
 
-    public function getPreco(): float {
+    public function getPreco(): ?float {
         return $this->preco;
     }
 
-    public function getEstoque(): int {
+    public function getEstoque(): ?int {
         return $this->estoque;
     }
 
-    public function getProduto(): Produto {
+    public function getProduto(): ?Produto {
         return $this->produto;
     }
 

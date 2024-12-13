@@ -7,27 +7,41 @@ class ProdutoDao {
     ){}
 
     public function buscarTudo() {
+        
         $sql = <<<'SQL'
-            SELECT p.id, p.nome, p.imagem_path, p.descricao, p.data_cadastro, 
-            c.id AS categoria_id, c.nome AS categoria_nome, c.descricao AS categoria_descricao
-            FROM produto p JOIN categoria c ON c.id=p.categoria_id;
+            SELECT 
+                p.id, 
+                p.nome, 
+                p.imagem_path, 
+                p.descricao, 
+                p.data_cadastro, 
+                
+                c.id AS categoria_id, 
+                c.nome AS categoria_nome, 
+                c.descricao AS categoria_descricao
+            FROM 
+                produto p 
+            JOIN 
+                categoria c ON c.id=p.categoria_id;
         SQL;
+
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
 
         $produtos = [];
 
-        foreach($stmt as $p) {
+        foreach($stmt as $d) {
             $produtos [] = [
-                'id' => $p['id'],
-                'nome' => $p['nome'],
-                'imagem_path' => $p['imagem_path'],
-                'descricao' => $p['descricao'],
-                'data_cadastro' => $p['data_cadastro'],
+                'id' => $d['id'],
+                'nome' => $d['nome'],
+                'imagem_path' => $d['imagem_path'],
+                'descricao' => $d['descricao'],
+                'data_cadastro' => $d['data_cadastro'],
+                
                 'categoria' => [
-                    'id' => $p['categoria_id'],
-                    'nome' => $p['categoria_nome'],
-                    'descricao' => $p['categoria_descricao']
+                    'id' => $d['categoria_id'],
+                    'nome' => $d['categoria_nome'],
+                    'descricao' => $d['categoria_descricao']
                 ]
             ];
 
@@ -36,29 +50,44 @@ class ProdutoDao {
     }
 
     public function buscarPeloId($id) {
+        
         $sql = <<<'SQL'
-            SELECT p.id, p.nome, p.imagem_path, p.descricao, p.data_cadastro, 
-            c.id AS categoria_id, c.nome AS categoria_nome, c.descricao AS categoria_descricao
-            FROM produto p JOIN categoria c ON c.id=p.categoria_id WHERE p.id = :id;
+            SELECT 
+                p.id, 
+                p.nome, 
+                p.imagem_path, 
+                p.descricao, 
+                p.data_cadastro, 
+                
+                c.id AS categoria_id, 
+                c.nome AS categoria_nome, 
+                c.descricao AS categoria_descricao
+            FROM 
+                produto p 
+            JOIN   
+                categoria c ON c.id=p.categoria_id 
+            WHERE p.id = :id;
         SQL;
+
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
 
-        $p = $stmt->fetch();
-        if (! $p )
+        $d = $stmt->fetch();
+        if ( ! $d )
             return null;
 
 
         $pdt = [
-            'id' => $p['id'],
-            'nome' => $p['nome'],
-            'imagem_path' => $p['imagem_path'],
-            'descricao' => $p['descricao'],
-            'data_cadastro' => $p['data_cadastro'],
+            'id' => $d['id'],
+            'nome' => $d['nome'],
+            'imagem_path' => $d['imagem_path'],
+            'descricao' => $d['descricao'],
+            'data_cadastro' => $d['data_cadastro'],
+            
             'categoria' => [
-                'id' => $p['categoria_id'],
-                'nome' => $p['categoria_nome'],
-                'descricao' => $p['categoria_descricao']
+                'id' => $d['categoria_id'],
+                'nome' => $d['categoria_nome'],
+                'descricao' => $d['categoria_descricao']
             ]
         ];
 
@@ -70,9 +99,23 @@ class ProdutoDao {
             $this->pdo->beginTransaction();
 
             $sql = <<< 'SQL'
-                INSERT INTO produto(nome, imagem_path, descricao, data_cadastro, categoria_id)
-                VALUES (:nome, :imagem_path, :descricao, :data_cadastro, :categoria_id);
+                INSERT INTO produto(
+                    nome, 
+                    imagem_path, 
+                    descricao, 
+                    data_cadastro, 
+                    categoria_id
+                )
+
+                VALUES (
+                    :nome, 
+                    :imagem_path, 
+                    :descricao, 
+                    :data_cadastro, 
+                    :categoria_id
+                );
             SQL;   
+
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
                 'nome'=> $pdt['nome'],
@@ -96,9 +139,16 @@ class ProdutoDao {
             $this->pdo->beginTransaction();
 
             $sql = <<< 'SQL'
-                UPDATE produto SET nome = :nome, imagem_path = :imagem_path, 
-                descricao = :descricao, data_cadastro = :data_cadastro, categoria_id = :categoria_id
-                WHERE id = :id;
+                UPDATE 
+                    produto 
+                SET 
+                    nome = :nome, 
+                    imagem_path = :imagem_path, 
+                    descricao = :descricao, 
+                    data_cadastro = :data_cadastro, 
+                    categoria_id = :categoria_id
+                WHERE 
+                    id = :id;
             SQL;
             
             $stmt = $this->pdo->prepare($sql);

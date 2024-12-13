@@ -9,26 +9,26 @@ class Cliente {
      * @param DateTime $data_nascimento
      */
     public function __construct(
-        private int $id,
-        private string $nome,
-        private string $cpf,
-        private DateTime $data_nascimento
+        private ?int $id,
+        private ?string $nome,
+        private ?string $cpf,
+        private ?DateTime $data_nascimento
     ) {}
 
     // Getters
-    public function getId(): int {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getNome(): string {
+    public function getNome(): ?string {
         return $this->nome;
     }
 
-    public function getCpf(): string {
+    public function getCpf(): ?string {
         return $this->cpf;
     }
 
-    public function getDataNascimento(): DateTime {
+    public function getDataNascimento(): ?DateTime {
         return $this->data_nascimento;
     }
 
