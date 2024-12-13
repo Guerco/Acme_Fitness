@@ -3,6 +3,7 @@
 // Arquivo de Configuração da conexão com o banco de dados
 
 function conectar () {
+    // Preencher as informações locais do banco de dados
     $host = ""; 
     $user = "";
     $password = "";

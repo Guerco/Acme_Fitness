@@ -7,13 +7,14 @@ class CategoriaDao {
     ){}
 
     public function buscarTudo() {
-        $sql = 'SELECT id, nome, descricao FROM categoria';
+        $sql = 'SELECT id, 
+        nome, 
+        descricao 
+        FROM categoria';
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
 
-        $categorias = $stmt->fetchAll();
-
-        return $categorias;
+        return $stmt->fetchAll();
     }
 
     public function buscarPeloId($id) {
@@ -21,9 +22,7 @@ class CategoriaDao {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
 
-        $cat = $stmt->fetch();
-
-        return $cat;
+        return $stmt->fetch();
     }
     
     public function salvar(array &$cat) {
@@ -38,7 +37,6 @@ class CategoriaDao {
             ]);
             
             $cat['id'] = $this->pdo->lastInsertId();
-            echo PHP_EOL, PHP_EOL, $this->pdo->lastInsertId(), PHP_EOL,PHP_EOL;
             
             $this->pdo->commit();
         } catch ( PDOException $e ) {
