@@ -1,6 +1,6 @@
 <?php
 
-class CategoriaDao {
+class ClienteDao {
 
     public function __construct (
         private PDO $pdo
@@ -11,9 +11,10 @@ class CategoriaDao {
             SELECT 
                 id, 
                 nome, 
-                descricao 
+                cpf,
+                data_nascimento 
             FROM 
-                categoria;
+                cliente;
         SQL;
 
         $stmt = $this->pdo->prepare($sql);
@@ -23,36 +24,49 @@ class CategoriaDao {
     }
 
     public function buscarPeloId($id) {
-        $sql = 'SELECT id, nome, descricao FROM categoria WHERE id = :id';
+        $sql = <<< 'SQL'
+            SELECT 
+                id, 
+                nome, 
+                cpf,
+                data_nascimento 
+            FROM 
+                cliente
+            WHERE 
+                id = :id;
+        SQL;
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
 
         return $stmt->fetch();
     }
     
-    public function salvar(array &$cat) {
+    public function salvar(array &$cli) {
         try {
             $this->pdo->beginTransaction();
 
             $sql = <<< 'SQL'
-                INSERT INTO categoria(
+                INSERT INTO cliente(
                     nome, 
-                    descricao
+                    cpf,
+                    data_nascimento
                 ) 
                 
                 VALUES (
                     :nome, 
-                    :descricao
+                    :cpf,
+                    :data_nascimento
                 );
             SQL;
             
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
-                'nome'=> $cat['nome'],
-                'descricao'=> $cat['descricao']
+                'nome'=> $cli['nome'],
+                'cpf'=> $cli['cpf'],
+                'data_nascimento'=> $cli['data_nascimento']
             ]);
             
-            $cat['id'] = $this->pdo->lastInsertId();
+            $cli['id'] = $this->pdo->lastInsertId();
             
             $this->pdo->commit();
         } catch ( PDOException $e ) {
@@ -61,24 +75,27 @@ class CategoriaDao {
         }
     }
     
-    public function alterar( array $cat ) {
+    public function alterar( array $cli ) {
         try {
             $this->pdo->beginTransaction();
 
             $sql = <<< 'SQL'
                 UPDATE 
-                    categoria
+                    cliente
                 SET
                     nome = :nome,
-                    descricao = :descricao
+                    cpf = :cpf,
+                    data_nascimento = :data_nascimento
                 WHERE
                     id = :id;
             SQL; 
+            
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
-                'nome' => $cat['nome'],
-                'descricao' => $cat['descricao'],
-                'id' => $cat['id']
+                'nome'=> $cli['nome'],
+                'cpf'=> $cli['cpf'],
+                'data_nascimento'=> $cli['data_nascimento'],
+                'id' => $cli['id']
             ]);
             
             $this->pdo->commit();
@@ -97,7 +114,7 @@ class CategoriaDao {
             $this->pdo->beginTransaction();
 
             
-            $sql = 'DELETE FROM categoria WHERE id = :id';
+            $sql = 'DELETE FROM cliente WHERE id = :id';
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
                 'id' => $id
