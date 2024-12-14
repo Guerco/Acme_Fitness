@@ -15,7 +15,7 @@ CREATE TABLE acme_fitness.categoria(
 CREATE TABLE acme_fitness.produto( 
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
     nome varchar(200), 
-    imagem_path varchar(200), -- Podendo ser o caminho para a imagem nos arquivos ou a url de uma imagem online 
+    imagem_path varchar(200),
     descricao TEXT, 
     data_cadastro DATE, 
     categoria_id INT NOT NULL, 
@@ -56,10 +56,10 @@ CREATE TABLE acme_fitness.venda(
     valor_frete DECIMAL(10,2), 
     descontos DECIMAL(10,2), 
     forma_pagamento ENUM('PIX', 'Boleto', 'Cartão (1x)'), 
-    cliente_id INT NOT NULL, 
-    endereco_id INT NOT NULL, 
-    CONSTRAINT fk__venda_cliente FOREIGN KEY(cliente_id) REFERENCES cliente(id) ON DELETE RESTRICT, 
-    CONSTRAINT fk__venda_endereco FOREIGN KEY(endereco_id) REFERENCES endereco(id) ON DELETE RESTRICT 
+    cliente_id INT, 
+    endereco_id INT, 
+    CONSTRAINT fk__venda_cliente FOREIGN KEY(cliente_id) REFERENCES cliente(id) ON DELETE SET NULL, 
+    CONSTRAINT fk__venda_endereco FOREIGN KEY(endereco_id) REFERENCES endereco(id) ON DELETE SET NULL 
 )ENGINE=INNODB;  
   
 CREATE TABLE acme_fitness.variacao_venda( 
@@ -73,6 +73,7 @@ CREATE TABLE acme_fitness.variacao_venda(
   
   
 -- Inserindo exemplos de registros 
+
 INSERT INTO acme_fitness.categoria(nome, descricao) VALUES  
 ('Aparelho','Aparelhos para realização de exercícios'), 
 ('Equipamento','Equipamentos para auxiliar em atividades.'),  
@@ -101,7 +102,7 @@ INSERT INTO  acme_fitness.variacao(tamanho, cor, peso, preco, estoque, produto_i
  
 INSERT INTO acme_fitness.endereco(logradouro, cidade, bairro, numero, cep, complemento) VALUES  
 ('Avenida dos Coquinhos', 'Jamelândia', 'Coqueiral', '343', '123456-78', NULL ), 
-('Rua General Marcelo Americo III', 'Pombalzinho do Norte', 'Parque Amaro', '64-B', '87654-321', NULL), 
+('Rua General Marcelo Americo III', 'Pombalzinho do Norte', 'Parque Amaro', '64', '87654-321', NULL), 
 ('Alameda da Cadela', 'União Coquimbo do Sul', 'Rua da Água', '412', '13579-246', 'Bloco 1, Apto. 26'); 
  
 INSERT INTO acme_fitness.cliente(nome, cpf, data_nascimento) VALUES 

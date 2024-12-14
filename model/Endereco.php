@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/DominioException.php';
+
 class Endereco {
 
     /**
@@ -49,5 +51,57 @@ class Endereco {
     public function getComplemento(): ?string {
         return $this->complemento;
     }
+
+     // Validação
+     public function validar() {
+        $erros = [];
+
+        // Verifica se o id, caso atribuido, seja um número não negativo
+        if ( $this->id ) {
+            if ( $this->id < 0 )
+                $erros[] = 'O id deve ser inteiro e não negativo.';
+        }
+
+        // Verifica se o logradouro foi preenchido
+        if ( empty( $this->logradouro ) ) {
+            $erros[] = 'O logradouro é obrigatório.';
+        } 
+        
+        // Verifica se o numero foi preenchido e se é numérico
+        if ( empty( $this->numero ) ) {
+            $erros[] = 'O numero é obrigatório.';
+        } else if ( ! is_numeric($this->numero)) {
+            $erros[] = 'O número deve possuir apenas valores numéricos';
+        }
+        
+        // Verifica se o bairro foi preenchido
+        if ( empty( $this->bairro ) ) {
+            $erros[] = 'O bairro é obrigatório.';
+        } 
+        
+        // Verifica se a cidade foi preenchida
+        if ( empty( $this->cidade ) ) {
+            $erros[] = 'A cidade é obrigatória.';
+        } 
+
+        // Verifica se o cep foi preenchido e se segue o formato definido
+        if ( empty( $this->cep ) ) {
+            $erros[] = 'O cep é obrigatório.';
+        } else if ( ! $this->validarCep($this->cep) ) {
+            $erros[] = 'O cep deve estar no formato XXXXX-XX';
+        }
+
+        if ( $erros ) {
+            $erros_json = json_encode( $erros, JSON_PRETTY_PRINT );
+            throw new DominioException($erros_json);
+        }
+    }
+
+    private function validarCep ( $cep ) {
+        $formato = '/^\d{5}\-\d{3}$/';
+
+        return preg_match($formato, $cep);
+    }
+
 }
 ?>

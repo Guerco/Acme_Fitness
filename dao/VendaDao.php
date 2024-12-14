@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/../model/DominioException.php';
+
 class VendaDao {
 
     public function __construct (
@@ -254,7 +256,7 @@ class VendaDao {
         try {
             $this->pdo->beginTransaction();
 
-            $insert = <<<'SQL'
+            $insert_venda = <<<'SQL'
                 INSERT INTO venda(
                     valor_total,
                     valor_frete,
@@ -274,7 +276,7 @@ class VendaDao {
                 );
             SQL;
 
-            $stmt = $this->pdo->prepare($insert);
+            $stmt = $this->pdo->prepare($insert_venda);
             $stmt->execute([
                 'valor_total'=> $ven['valor_total'],
                 'valor_frete'=> $ven['valor_frete'],
@@ -286,7 +288,7 @@ class VendaDao {
             
             $ven['id'] = $this->pdo->lastInsertId();
 
-            $insert = <<<'SQL'
+            $insert_variacao_venda = <<<'SQL'
                 INSERT INTO variacao_venda(
                     quantidade,
                     variacao_id,
@@ -299,8 +301,8 @@ class VendaDao {
                     :venda_id
                 );
             SQL;
-
-            $update = <<<'SQL'
+            
+            $update_estoque = <<<'SQL'
                 UPDATE 
                     variacao 
                 SET 
@@ -309,112 +311,19 @@ class VendaDao {
             SQL;
 
             foreach ( $ven['itens'] as $it ) {
-                $stmt = $this->pdo->prepare($update);
+                $stmt = $this->pdo->prepare($update_estoque);
                 $stmt->execute([
                     'quantidade'=> $it['quantidade'],
                     'variacao_id'=> $it['variacao_id'],
                 ]);
                 
-                $stmt = $this->pdo->prepare($insert);
+                $stmt = $this->pdo->prepare($insert_variacao_venda);
                 $stmt->execute([
                     'quantidade'=> $it['quantidade'],
                     'variacao_id'=> $it['variacao_id'],
                     'venda_id'=> $ven['id']
                 ]);
             }
-            
-            $this->pdo->commit();
-            
-            if ($stmt->rowCount())
-                return true;
-            return false;
-        } catch ( PDOException $e ) {
-            $this->pdo->rollBack();
-            throw $e;
-        }
-    }
-    
-    public function alterar( array $ven ) {
-        try {
-            $this->pdo->beginTransaction();
-
-            $sql = <<< 'SQL'
-                UPDATE 
-                    venda 
-                SET 
-                    valor_total = :valor_total, 
-                    valor_frete = :valor_frete, 
-                    descontos = :descontos, 
-                    forma_pagamento = :forma_pagamento, 
-                    cliente_id = :cliente_id, 
-                    endereco_id = :endereco_id
-                WHERE 
-                    id = :id;
-            SQL;
-            
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([
-                'valor_total' => $ven['valor_total'], 
-                'valor_frete' => $ven['valor_frete'], 
-                'descontos' => $ven['descontos'], 
-                'forma_pagamento' => $ven['forma_pagamento'], 
-                'cliente_id' => $ven['cliente_id'], 
-                'endereco_id' => $ven['endereco_id'],
-                'id' => $ven['id']
-            ]);
-
-            $sql = <<< 'SQL'
-                UPDATE 
-                    variacao_venda 
-                SET 
-                    quantidade = :quantidade, 
-                    variacao_id = :variacao_id, 
-                    venda_id = :venda_id
-                WHERE 
-                    id = :id;
-            SQL;
-
-            $update_estoque = <<< 'SQL'
-                UPDATE 
-                    variacao
-                SET 
-                    estoque = estoque + :quantidade_antiga - :quantidade_nova
-                WHERE id = :variacao_id;
-            SQL;
-
-            foreach ( $ven['itens'] as $it ) {
-                $select_quantidade = <<< 'SQL'
-                    SELECT 
-                        quantidade 
-                    FROM 
-                        variacao_venda 
-                    WHERE 
-                        id = :variacao_venda_id
-                SQL;
-
-                $stmt = $this->pdo->prepare($select_quantidade);
-                $stmt->execute([
-                    'variacao_venda_id'=> $it['id']
-                ]);
-                $qtd_antiga = $stmt->fetchColumn();
-                
-                
-                $stmt = $this->pdo->prepare($update_estoque);
-                $stmt->execute([
-                    'quantidade_antiga'=> $qtd_antiga,
-                    'quantidade_nova'=> $it['quantidade'],
-                    'variacao_id'=> $it['variacao_id']
-                ]);
-                
-                $stmt = $this->pdo->prepare($sql);
-                $stmt->execute([
-                    'quantidade'=> $it['quantidade'],
-                    'variacao_id'=> $it['variacao_id'],
-                    'venda_id'=> $ven['id'],
-                    'id'=> $it['id'],
-                ]);
-            }
-
             
             $this->pdo->commit();
             
