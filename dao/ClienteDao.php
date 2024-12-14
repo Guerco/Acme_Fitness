@@ -69,6 +69,10 @@ class ClienteDao {
             $cli['id'] = $this->pdo->lastInsertId();
             
             $this->pdo->commit();
+
+            if ($stmt->rowCount())
+                return true;
+            return false;
         } catch ( PDOException $e ) {
             $this->pdo->rollBack();
             throw $e;

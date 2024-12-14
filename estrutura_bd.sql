@@ -68,7 +68,7 @@ CREATE TABLE acme_fitness.variacao_venda(
     variacao_id INT NOT NULL, 
     venda_id INT NOT NULL, 
     CONSTRAINT fk__variacao_venda_variacao FOREIGN KEY(variacao_id) REFERENCES variacao(id) ON DELETE RESTRICT, 
-    CONSTRAINT fk__variacao_venda_venda FOREIGN KEY(venda_id) REFERENCES venda(id) ON DELETE RESTRICT 
+    CONSTRAINT fk__variacao_venda_venda FOREIGN KEY(venda_id) REFERENCES venda(id) ON DELETE CASCADE 
 )ENGINE=INNODB;  
   
   
@@ -117,6 +117,6 @@ INSERT INTO variacao_venda(quantidade, variacao_id, venda_id) VALUES
  
  
 INSERT INTO acme_fitness.venda (valor_total, valor_frete, descontos, forma_pagamento, cliente_id, endereco_id) VALUES 
-(1167.89, 10.00, 291.98, 'Boleto', 3, 3);  
+(1167.89, 10.00, 291.98, 'PIX', 3, 3);  
 INSERT INTO variacao_venda(quantidade, variacao_id, venda_id) VALUES 
 (1, 1, 2), (3, 9, 2); 
