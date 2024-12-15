@@ -1,31 +1,31 @@
-    <?php
+<?php
 
-require_once __DIR__ . '/../dao/CategoriaDao.php';
-require_once __DIR__ . '/../model/Categoria.php';
+require_once __DIR__ . '/../dao/ProdutoDao.php';
+require_once __DIR__ . '/../model/Produto.php';
 require_once __DIR__ . '/../model/DominioException.php';
 
-class CategoriaController
+class ProdutoController
 {
 
     /**
-     * @param CategoriaDao $dao
+     * @param ProdutoDao $dao
      * @param bool $exibir_detalhes Define se detalhes adicionais sobre as exceções são exibidos
      */
     public function __construct(
-        private CategoriaDao $dao,
+        private ProdutoDao $dao,
         private $exibir_detalhes = false
     ) {}
 
     public function listar() {
         try {
-            $categorias = $this->dao->buscarTudo();
+            $produtos = $this->dao->buscarTudo();
 
             // Em caso de sucesso na operação
-            if ($categorias) {
+            if ($produtos) {
                 $this->enviarResposta(
                     codigo: 200,
                     mensagem: null,
-                    dados: $categorias
+                    dados: $produtos
                 );
 
             // Em caso da operação não possuir retorno
@@ -56,20 +56,20 @@ class CategoriaController
         $id = (int) $d['id'];
 
         try {
-            $categoria = $this->dao->buscarPeloId($id);
+            $produto = $this->dao->buscarPeloId($id);
 
             // Em caso de sucesso na operação
-            if ($categoria) {
+            if ($produto) {
                 $this->enviarResposta(
                     codigo: 200,
                     mensagem: null,
-                    dados: $categoria
+                    dados: $produto
                 );
 
             // Em caso da operação não possuir retorno
             } else {
                 $msg = 'Nenhum resultado encontrado.';
-                $err = 'Não há categoria com o id informado.';
+                $err = 'Não há produto com o id informado.';
                 
                 $this->enviarResposta(
                     codigo: 404,
@@ -95,13 +95,24 @@ class CategoriaController
     public function criar($d)
     {
         try {
+            $this->verificarDados($d);
+
             $categoria = new Categoria(
+                (int) $d['categoria']['id'],
                 null,
-                $d['nome'] ?? null,
-                $d['descricao'] ?? null
+                null
             );
 
-            $categoria->validar();
+            $produto = new Produto(
+                null,
+                $d['nome'] ?? null,
+                $d['imahem_path'] ?? null,
+                $d['descricao'] ?? null,
+                $d['data_cadastro'] ?? null,
+                $categoria
+            );
+
+            $produto->validar();
 
             // Em caso de sucesso na operação
             if ($this->dao->salvar($d)) {
@@ -157,12 +168,21 @@ class CategoriaController
             $this->verificarDados($d, true);
 
             $categoria = new Categoria(
-                (int) $d['id'],
-                $d['nome'] ?? null,
-                $d['descricao'] ?? null
+                (int) $d['categoria']['id'],
+                null,
+                null
             );
 
-            $categoria->validar();
+            $produto = new Produto(
+                (int) $d['id'],
+                $d['nome'] ?? null,
+                $d['imahem_path'] ?? null,
+                $d['descricao'] ?? null,
+                $d['data_cadastro'] ?? null,
+                $categoria
+            );
+
+            $produto->validar();
 
             // Em caso de sucesso na operação
             if ($this->dao->alterar($d)) {
@@ -173,7 +193,7 @@ class CategoriaController
             // Em caso da operação não afetar linhas
             } else {
                 $msg = 'A operação não teve efeito.';
-                $err = 'Não há cliente com o id informado ou nenhuma alteração foi feita.';
+                $err = 'Não há produto com o id informado ou nenhuma alteração foi feita.';
                 
                 $this->enviarResposta(
                     codigo: 404,
@@ -224,7 +244,7 @@ class CategoriaController
             // Em caso da operação não afetar linhas
             } else {
                 $msg = 'A operação não teve efeito.';
-                $err = 'Não há categoria com o id informado.';
+                $err = 'Não há produto com o id informado.';
                 
                 $this->enviarResposta(
                     codigo: 404,
@@ -248,7 +268,7 @@ class CategoriaController
     }
 
     /**
-     * Verificação dos tipos de dado de entrada
+     * Validação dos tipos de dado de entrada
      * @param mixed $d
      * @return void
      */
@@ -265,6 +285,17 @@ class CategoriaController
             }
         }
 
+        if ( isset($d['categoria'])) {
+            if (!isset($d['categoria']['id'])) {
+                $erros[] = 'O id da categoria não foi informado.';
+            } else if (!is_numeric($d['categoria']['id'])) {
+                $erros[] = 'O id da categoria informado não é numérico.';
+            } 
+        } else {
+            $erros[] = 'A categoria não foi informada.';
+
+        }
+
         if (!empty($erros)) {
             $msg = 'Operação não realizada.';
             
@@ -275,14 +306,9 @@ class CategoriaController
                 erros: $erros
             );
         }
-
+        
     }
-
-    /**
-     * Verificação do campo id
-     * @param mixed $d
-     * @return void
-     */
+    
     private function verificarId($d) {
         $erros = [];
         
@@ -309,7 +335,7 @@ class CategoriaController
     {
         
         http_response_code($codigo);
-
+        
         if ($dados) {
             exit(json_encode(
                 $dados, 

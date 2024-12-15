@@ -51,7 +51,7 @@ class EnderecoController
         }
     }
     public function buscar($d) {
-        $this->validarDados($d, true);
+        $this->verificariD($d);
 
         $id = (int) $d['id'];
 
@@ -158,7 +158,7 @@ class EnderecoController
     public function atualizar($d)
     {
         try {
-            $this->validarDados($d, true);
+            $this->verificarDados($d, true);
 
             $endereco = new Endereco(
                 (int) $d['id'],
@@ -219,7 +219,7 @@ class EnderecoController
     {
 
         try {
-            $this->validarDados($d, true);
+            $this->verificarId($d);
 
             $id = (int) $d['id'];
 
@@ -260,11 +260,11 @@ class EnderecoController
      * @param mixed $d
      * @return void
      */
-    private function validarDados($d, $validar_id = false)
+    private function verificarDados($d, $verificar_id = false)
     {
         $erros = [];
 
-        if ($validar_id) {
+        if ($verificar_id) {
             // Verifica se o id informado é numérico
             if (!isset($d['id'])) {
                 $erros[] = 'O id não foi informado.';
@@ -284,6 +284,28 @@ class EnderecoController
             );
         }
 
+    }
+
+    private function verificarId($d) {
+        $erros = [];
+        
+        // Verifica se o id informado é numérico
+        if (!isset($d['id'])) {
+            $erros[] = 'O id não foi informado.';
+        } else if (!is_numeric($d['id'])) {
+            $erros[] = 'O id informado não é numérico.';
+        }
+        
+        if (!empty($erros)) {
+            $msg = 'Operação não realizada.';
+            
+            $this->enviarResposta(
+                codigo: 400,
+                mensagem: $msg,
+                dados: null,
+                erros: $erros
+            );
+        }
     }
 
     private function enviarResposta($codigo, $mensagem = null, $dados = null, $erros = null)

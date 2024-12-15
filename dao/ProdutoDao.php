@@ -122,7 +122,7 @@ class ProdutoDao {
                 'imagem_path'=> $pdt['imagem_path'],
                 'descricao'=> $pdt['descricao'],
                 'data_cadastro'=> $pdt['data_cadastro'],
-                'categoria_id'=> $pdt['categoria_id'],
+                'categoria_id'=> $pdt['categoria']['id'],
             ]);
             
             $pdt['id'] = $this->pdo->lastInsertId();
@@ -161,7 +161,7 @@ class ProdutoDao {
                 'imagem_path'=> $pdt['imagem_path'],
                 'descricao'=> $pdt['descricao'],
                 'data_cadastro'=> $pdt['data_cadastro'],
-                'categoria_id'=> $pdt['categoria_id'],
+                'categoria_id'=> $pdt['categoria']['id'],
                 'id' => $pdt['id']
             ]);
             
