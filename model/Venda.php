@@ -58,7 +58,10 @@ class Venda{
     public function setDescontos(float $descontos) {
         $this->descontos = $descontos;
     }
-    public function addItens(Variacao $variacao, ?int $quantidade): void {
+    public function addItens(?Variacao $variacao, ?int $quantidade): void {
+        if (! $variacao ) {
+            throw new DominioException('A variação é obrigatória.');
+        } 
 
         if (! $quantidade ) {
             throw new DominioException('A quantidade da variação é obrigatória.');
@@ -123,18 +126,28 @@ class Venda{
             $erros[] = 'O forma de pagamento deve ser: PIX, Boleto ou Cartão (1x)';
         }
         
-        // Verifica se o cliente foi preenchido e se possui id
+        // Verifica se o cliente foi preenchido e se possui um id inteiro e não negativo
         if ( empty( $this->cliente )  ) {
             $erros[] = 'O cliente é obrigatório.';
         } else if ( empty( $this->cliente->getId() ) ) {
             $erros[] = 'O id do cliente é obrigatório';
         }
+        else if ( ! is_int($this->cliente->getId()) 
+            ||  $this->cliente->getId() < 0 ) 
+        {
+            $erros[] = 'O id do cliente deve ser um inteiro não negativo.';
+        }
 
-        // Verifica se o endereco foi preenchido e se possui id
+        // Verifica se o endereco foi preenchido e se possui um id inteiro e não negativo
         if ( empty( $this->endereco )  ) {
             $erros[] = 'O endereço é obrigatório.';
         } else if ( empty( $this->endereco->getId() ) ) {
             $erros[] = 'O id do endereço é obrigatório';
+        }
+        else if ( ! is_int($this->endereco->getId()) 
+            ||  $this->endereco->getId() < 0 ) 
+        {
+            $erros[] = 'O id do endereco deve ser um inteiro não negativo.';
         }
 
         // Verifica se a lista de itens está vazia

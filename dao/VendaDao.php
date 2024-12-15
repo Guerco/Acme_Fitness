@@ -282,8 +282,8 @@ class VendaDao {
                 'valor_frete'=> $ven['valor_frete'],
                 'descontos'=> $ven['descontos'],
                 'forma_pagamento'=> $ven['forma_pagamento'],
-                'cliente_id'=> $ven['cliente_id'],
-                'endereco_id'=> $ven['endereco_id']
+                'cliente_id'=> $ven['cliente']['id'],
+                'endereco_id'=> $ven['endereco']['id']
             ]);
             
             $ven['id'] = $this->pdo->lastInsertId();
@@ -314,13 +314,13 @@ class VendaDao {
                 $stmt = $this->pdo->prepare($update_estoque);
                 $stmt->execute([
                     'quantidade'=> $it['quantidade'],
-                    'variacao_id'=> $it['variacao_id'],
+                    'variacao_id'=> $it['variacao']['id'],
                 ]);
                 
                 $stmt = $this->pdo->prepare($insert_variacao_venda);
                 $stmt->execute([
                     'quantidade'=> $it['quantidade'],
-                    'variacao_id'=> $it['variacao_id'],
+                    'variacao_id'=> $it['variacao']['id'],
                     'venda_id'=> $ven['id']
                 ]);
             }

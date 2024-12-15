@@ -77,11 +77,16 @@ class Variacao {
             $erros[] = 'O estoque deve ser um inteiro não negativo';
         }
         
-        // Verifica se o produto foi preenchido e se possui id
+        // Verifica se o produto foi preenchido e se possui um id não negativo
         if ( empty( $this->produto )  ) {
             $erros[] = 'O produto é obrigatório.';
         } else if ( empty( $this->produto->getId() ) ) {
             $erros[] = 'O id do produto é obrigatório';
+        }
+        else if ( ! is_int($this->produto->getId()) 
+            ||  $this->produto->getId() < 0 ) 
+        {
+            $erros[] = 'O id do produto deve ser um inteiro não negativo.';
         }
 
         if ( $erros ) {

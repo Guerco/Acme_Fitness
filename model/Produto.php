@@ -62,7 +62,7 @@ class Produto {
             $erros[] = 'O nome é obrigatório.';
         } 
         
-        // Verifica se a categoria foi preenchida e se possui um id
+        // Verifica se a categoria foi preenchida e se possui um id inteiro e não negativo
         if ( empty( $this->categoria ) ) 
         {
             $erros[] = 'A categoria é obrigatória.';
@@ -70,8 +70,12 @@ class Produto {
         else if ( empty( $this->categoria->getId() ) )
         {
             $erros[] = 'O id da categoria é obrigatório.';
-
         } 
+        else if ( ! is_int($this->categoria->getId()) 
+        ||  $this->categoria->getId() < 0 ) 
+        {
+            $erros[] = 'O id da categoria deve ser um inteiro não negativo.';
+        }
 
         // Verifica se a data de cadastro foi preenchida, se segue o formato definido e se é válida
         if ( empty( $this->data_cadastro ) ) {
