@@ -45,7 +45,7 @@ class Categoria {
         } 
 
         if ( $erros ) {
-            $erros_json = json_encode( $erros, JSON_PRETTY_PRINT );
+            $erros_json = json_encode( $erros, JSON_UNESCAPED_UNICODE );
             throw new DominioException($erros_json);
         }
     }
