@@ -1,31 +1,31 @@
     <?php
 
-require_once __DIR__ . '/../dao/CategoriaDao.php';
-require_once __DIR__ . '/../model/Categoria.php';
+require_once __DIR__ . '/../dao/ClienteDao.php';
+require_once __DIR__ . '/../model/Cliente.php';
 require_once __DIR__ . '/../model/DominioException.php';
 
-class CategoriaController
+class ClienteController
 {
 
     /**
-     * @param CategoriaDao $dao
+     * @param ClienteDao $dao
      * @param bool $exibir_detalhes Define se detalhes adicionais sobre as exceções são exibidos
      */
     public function __construct(
-        private CategoriaDao $dao,
+        private ClienteDao $dao,
         private $exibir_detalhes = false
     ) {}
 
     public function listar() {
         try {
-            $categorias = $this->dao->buscarTudo();
+            $clientes = $this->dao->buscarTudo();
 
             // Em caso de sucesso na operação
-            if ($categorias) {
+            if ($clientes) {
                 $this->enviarResposta(
                     codigo: 200,
                     mensagem: null,
-                    dados: $categorias
+                    dados: $clientes
                 );
 
             // Em caso da operação não possuir retorno
@@ -56,20 +56,20 @@ class CategoriaController
         $id = (int) $d['id'];
 
         try {
-            $categoria = $this->dao->buscarPeloId($id);
+            $cliente = $this->dao->buscarPeloId($id);
 
             // Em caso de sucesso na operação
-            if ($categoria) {
+            if ($cliente) {
                 $this->enviarResposta(
                     codigo: 200,
                     mensagem: null,
-                    dados: $categoria
+                    dados: $cliente
                 );
 
             // Em caso da operação não possuir retorno
             } else {
                 $msg = 'Nenhum resultado encontrado.';
-                $err = 'Não há categoria com o id informado.';
+                $err = 'Não há cliente com o id informado.';
                 
                 $this->enviarResposta(
                     codigo: 404,
@@ -95,13 +95,14 @@ class CategoriaController
     public function criar($d)
     {
         try {
-            $categoria = new Categoria(
+            $cliente = new Cliente(
                 null,
                 $d['nome'] ?? null,
-                $d['descricao'] ?? null
+                $d['cpf'] ?? null,
+                $d['data_nascimento'] ?? null
             );
 
-            $categoria->validar();
+            $cliente->validar();
 
             // Em caso de sucesso na operação
             if ($this->dao->salvar($d)) {
@@ -156,13 +157,14 @@ class CategoriaController
         try {
             $this->validarDados($d, true);
 
-            $categoria = new Categoria(
+            $cliente = new Cliente(
                 (int) $d['id'],
                 $d['nome'] ?? null,
-                $d['descricao'] ?? null
+                $d['cpf'] ?? null,
+                $d['data_nascimento'] ?? null
             );
 
-            $categoria->validar();
+            $cliente->validar();
 
             // Em caso de sucesso na operação
             if ($this->dao->alterar($d)) {
@@ -224,7 +226,7 @@ class CategoriaController
             // Em caso da operação não afetar linhas
             } else {
                 $msg = 'A operação não teve efeito.';
-                $err = 'Não há categoria com o id informado.';
+                $err = 'Não há cliente com o id informado.';
                 
                 $this->enviarResposta(
                     codigo: 404,
