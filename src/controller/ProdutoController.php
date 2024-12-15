@@ -51,10 +51,8 @@ class ProdutoController
             );
         }
     }
-    public function buscar($d) {
-        $this->verificarId($d);
-
-        $id = (int) $d['id'];
+    public function buscar($id) {
+        $this->verificarId($id);
 
         try {
             $produto = $this->dao->buscarPeloId($id);
@@ -228,13 +226,11 @@ class ProdutoController
         }
         
     }
-    public function excluir($d)
+    public function excluir($id)
     {
 
         try {
-            $this->verificarId($d);
-
-            $id = (int) $d['id'];
+            $this->verificarId($id);
 
             // Em caso de sucesso na operação
             if ($this->dao->remover($id)) {
@@ -310,13 +306,18 @@ class ProdutoController
         
     }
     
-    private function verificarId($d) {
+    /**
+     * Verificação do campo id
+     * @param mixed $d
+     * @return void
+     */
+    private function verificarId($id) {
         $erros = [];
         
         // Verifica se o id informado é numérico
-        if (!isset($d['id'])) {
+        if (! $id ) {
             $erros[] = 'O id não foi informado.';
-        } else if (!is_numeric($d['id'])) {
+        } else if (!is_numeric($id)) {
             $erros[] = 'O id informado não é numérico.';
         }
         
