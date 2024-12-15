@@ -1,32 +1,32 @@
 <?php
 
-require_once __DIR__ . '/../dao/ProdutoDao.php';
+require_once __DIR__ . '/../dao/VariacaoDao.php';
+require_once __DIR__ . '/../model/Variacao.php';
 require_once __DIR__ . '/../model/Produto.php';
-require_once __DIR__ . '/../model/Categoria.php';
 require_once __DIR__ . '/../model/DominioException.php';
 
-class ProdutoController
+class VariacaoController
 {
 
     /**
-     * @param ProdutoDao $dao
+     * @param VariacaoDao $dao
      * @param bool $exibir_detalhes Define se detalhes adicionais sobre as exceções são exibidos
      */
     public function __construct(
-        private ProdutoDao $dao,
+        private VariacaoDao $dao,
         private $exibir_detalhes = false
     ) {}
 
     public function listar() {
         try {
-            $produtos = $this->dao->buscarTudo();
+            $variacaos = $this->dao->buscarTudo();
 
             // Em caso de sucesso na operação
-            if ($produtos) {
+            if ($variacaos) {
                 $this->enviarResposta(
                     codigo: 200,
                     mensagem: null,
-                    dados: $produtos
+                    dados: $variacaos
                 );
 
             // Em caso da operação não possuir retorno
@@ -57,20 +57,20 @@ class ProdutoController
         $id = (int) $d['id'];
 
         try {
-            $produto = $this->dao->buscarPeloId($id);
+            $variacao = $this->dao->buscarPeloId($id);
 
             // Em caso de sucesso na operação
-            if ($produto) {
+            if ($variacao) {
                 $this->enviarResposta(
                     codigo: 200,
                     mensagem: null,
-                    dados: $produto
+                    dados: $variacao
                 );
 
             // Em caso da operação não possuir retorno
             } else {
                 $msg = 'Nenhum resultado encontrado.';
-                $err = 'Não há produto com o id informado.';
+                $err = 'Não há variacao com o id informado.';
                 
                 $this->enviarResposta(
                     codigo: 404,
@@ -98,22 +98,26 @@ class ProdutoController
         try {
             $this->verificarDados($d);
 
-            $categoria = new Categoria(
-                (int) $d['categoria']['id'],
+            $produto = new Produto(
+                (int) $d['produto']['id'],
+                null,
+                null,
+                null,
                 null,
                 null
             );
 
-            $produto = new Produto(
+            $variacao = new Variacao(
                 null,
-                $d['nome'] ?? null,
-                $d['imahem_path'] ?? null,
-                $d['descricao'] ?? null,
-                $d['data_cadastro'] ?? null,
-                $categoria
+                $d['tamanho'] ?? null,
+                $d['peso'] ?? null,
+                $d['cor'] ?? null,
+                (float) $d['preco'] ?? null,
+                (int) $d['estoque'] ?? null,
+                $produto
             );
 
-            $produto->validar();
+            $variacao->validar();
 
             // Em caso de sucesso na operação
             if ($this->dao->salvar($d)) {
@@ -168,22 +172,26 @@ class ProdutoController
         try {
             $this->verificarDados($d, true);
 
-            $categoria = new Categoria(
-                (int) $d['categoria']['id'],
+            $produto = new Produto(
+                (int) $d['produto']['id'],
+                null,
+                null,
+                null,
                 null,
                 null
             );
 
-            $produto = new Produto(
+            $variacao = new Variacao(
                 (int) $d['id'],
-                $d['nome'] ?? null,
-                $d['imahem_path'] ?? null,
-                $d['descricao'] ?? null,
-                $d['data_cadastro'] ?? null,
-                $categoria
+                $d['tamanho'] ?? null,
+                $d['peso'] ?? null,
+                $d['cor'] ?? null,
+                (float) $d['preco'] ?? null,
+                (int) $d['estoque'] ?? null,
+                $produto
             );
 
-            $produto->validar();
+            $variacao->validar();
 
             // Em caso de sucesso na operação
             if ($this->dao->alterar($d)) {
@@ -194,7 +202,7 @@ class ProdutoController
             // Em caso da operação não afetar linhas
             } else {
                 $msg = 'A operação não teve efeito.';
-                $err = 'Não há produto com o id informado ou nenhuma alteração foi feita.';
+                $err = 'Não há variacao com o id informado ou nenhuma alteração foi feita.';
                 
                 $this->enviarResposta(
                     codigo: 404,
@@ -245,7 +253,7 @@ class ProdutoController
             // Em caso da operação não afetar linhas
             } else {
                 $msg = 'A operação não teve efeito.';
-                $err = 'Não há produto com o id informado.';
+                $err = 'Não há variacao com o id informado.';
                 
                 $this->enviarResposta(
                     codigo: 404,
@@ -276,26 +284,41 @@ class ProdutoController
     private function verificarDados($d, $verificar_id = false)
     {
         $erros = [];
-
+        
+        // Verifica se o id foi informado e se é numérico
         if ($verificar_id) {
-            // Verifica se o id informado é numérico
             if (!isset($d['id'])) {
                 $erros[] = 'O id não foi informado.';
             } else if (!is_numeric($d['id'])) {
                 $erros[] = 'O id informado não é numérico.';
             }
         }
-
-        if ( isset($d['categoria'])) {
-            if (!isset($d['categoria']['id'])) {
-                $erros[] = 'O id da categoria não foi informado.';
-            } else if (!is_numeric($d['categoria']['id'])) {
-                $erros[] = 'O id da categoria informado não é numérico.';
+        
+        // Verifica se o produto foi informado e se ele possui um id numérico
+        if ( isset($d['produto'])) {
+            if (!isset($d['produto']['id'])) {
+                $erros[] = 'O id do produto não foi informado.';
+            } else if (!is_numeric($d['produto']['id'])) {
+                $erros[] = 'O id do produto informado não é numérico.';
             } 
         } else {
-            $erros[] = 'A categoria não foi informada.';
-
+            $erros[] = 'O produto não foi informado.';
         }
+
+        // Verifica se o preco é numérico
+        if ( isset($d['preco'])) {
+             if (!is_numeric($d['preco'] )) {
+                $erros[] = 'O preco informado não é numérico.';
+            } 
+        }
+
+        // Verifica se o estoque é numérico
+        if ( isset($d['estoque'])) {
+             if (!is_numeric($d['estoque'] )) {
+                $erros[] = 'O estoque informado não é numérico.';
+            } 
+        }
+
 
         if (!empty($erros)) {
             $msg = 'Operação não realizada.';

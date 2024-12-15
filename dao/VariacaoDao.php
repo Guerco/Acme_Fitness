@@ -160,7 +160,7 @@ class VariacaoDao {
                 'cor'=> $var['cor'],
                 'preco'=> $var['preco'],
                 'estoque'=> $var['estoque'],
-                'produto_id'=> $var['produto_id']
+                'produto_id'=> $var['produto']['id']
             ]);
             
             $var['id'] = $this->pdo->lastInsertId();
@@ -201,7 +201,7 @@ class VariacaoDao {
                 'cor'=> $var['cor'],
                 'preco'=> $var['preco'],
                 'estoque'=> $var['estoque'],
-                'produto_id'=> $var['produto_id'],
+                'produto_id'=> $var['produto']['id'],
                 'id' => $var['id']
             ]);
             
