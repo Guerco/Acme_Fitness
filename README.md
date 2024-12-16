@@ -40,11 +40,11 @@ A empresa fictícia oferece uma variedade de produtos fitness, que abrangem desd
 ---
 
 ## API
-Para informações sobre o uso da API consulte a [documentação da api](/documentacao/api.md)
+Para informações sobre o uso da API consulte a [documentação da API](/documentacao/api.md).
 
 ---
 
 ## Validação de Dados
-Para informações sobre a validação dos dados consulte a [documentação da validação](/documentacao/validacoes.md)
+Para informações sobre a validação dos dados consulte a [documentação da validação](/documentacao/validacoes.md).
 
 ---
