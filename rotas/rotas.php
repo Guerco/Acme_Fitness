@@ -1,18 +1,18 @@
 <?php
 
-require_once __DIR__ . '/src/dao/CategoriaDao.php';
-require_once __DIR__ . '/src/dao/ClienteDao.php';
-require_once __DIR__ . '/src/dao/EnderecoDao.php';
-require_once __DIR__ . '/src/dao/ProdutoDao.php';
-require_once __DIR__ . '/src/dao/VariacaoDao.php';
-require_once __DIR__ . '/src/dao/VendaDao.php';
+require_once __DIR__ . '/../src/dao/CategoriaDao.php';
+require_once __DIR__ . '/../src/dao/ClienteDao.php';
+require_once __DIR__ . '/../src/dao/EnderecoDao.php';
+require_once __DIR__ . '/../src/dao/ProdutoDao.php';
+require_once __DIR__ . '/../src/dao/VariacaoDao.php';
+require_once __DIR__ . '/../src/dao/VendaDao.php';
 
-require_once __DIR__ . '/src/controller/CategoriaController.php';
-require_once __DIR__ . '/src/controller/ClienteController.php';
-require_once __DIR__ . '/src/controller/EnderecoController.php';
-require_once __DIR__ . '/src/controller/ProdutoController.php';
-require_once __DIR__ . '/src/controller/VariacaoController.php';
-require_once __DIR__ . '/src/controller/VendaController.php';
+require_once __DIR__ . '/../src/controller/CategoriaController.php';
+require_once __DIR__ . '/../src/controller/ClienteController.php';
+require_once __DIR__ . '/../src/controller/EnderecoController.php';
+require_once __DIR__ . '/../src/controller/ProdutoController.php';
+require_once __DIR__ . '/../src/controller/VariacaoController.php';
+require_once __DIR__ . '/../src/controller/VendaController.php';
 
 function processarRequisicao($metodo, $url, $input, $pdo, $exibir_detalhes = false)
 {

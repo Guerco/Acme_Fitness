@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json; charset=UTF-8');
 
-require_once __DIR__.'/rotas.php';
+require_once __DIR__.'/rotas/rotas.php';
 require_once __DIR__.'/src/conexao.php';
 
 $url = $_SERVER[ 'REQUEST_URI' ];
