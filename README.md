@@ -10,15 +10,15 @@ Projeto realizado como desafio, baseado em um Mini Mundo onde uma empresa de pro
 ---
 
 ## Estrutura do Projeto
-**/documentacao** - documentação do projeto
- **/src** - código fonte principal do projeto
-    **/controller** - gerenciadores de requisições e interação entre regras de negócio e dados
-    **/dao** - objetos de acesso à dados e interação com o banco
-    **/model** - classes e lógica de negócio
-    **/sql** - arquivos de banco de dados
-    **conexao.php** - arquivo de configuração da conexão com o banco de dados
- **/index.php** - entrada principal da api
- **/rotas.php** - tratamento das rotas de recursos da api
+**/documentacao** - documentação do projeto  
+ **/src** - código fonte principal do projeto  
+    **/controller** - gerenciadores de requisições e interação entre regras de negócio e dados  
+    **/dao** - objetos de acesso à dados e interação com o banco  
+    **/model** - classes e lógica de negócio  
+    **/sql** - arquivos de banco de dados  
+    **conexao.php** - arquivo de configuração da conexão com o banco de dados  
+ **/index.php** - entrada principal da api  
+ **/rotas.php** - tratamento das rotas de recursos da api  
 
 ## Configuração do Ambiente  
 - Configure o arquivo `conexao.php` com as informações do banco.  
