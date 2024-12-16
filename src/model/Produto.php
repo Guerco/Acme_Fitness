@@ -27,26 +27,6 @@ class Produto {
         return $this->id;
     }
 
-    public function getNome(): ?string {
-        return $this->nome;
-    }
-
-    public function getImagemPath(): ?string {
-        return $this->imagem_path;
-    }
-
-    public function getDescricao(): ?string {
-        return $this->descricao;
-    }
-
-    public function getDataCadastro(): ?string {
-        return $this->data_cadastro;
-    }
-
-    public function getCategoria(): ?Categoria {
-        return $this->categoria;
-    }
-
     // Validação
     public function validar() {
         $erros = [];
@@ -57,10 +37,20 @@ class Produto {
                 $erros[] = 'O id deve ser inteiro e não negativo.';
         }
 
-        // Verifica se o nome foi preenchido
+        // Verifica se o nome foi preenchido e se possui no máximo 50 caracteres
         if ( empty( $this->nome ) ) {
             $erros[] = 'O nome é obrigatório.';
+        } else if ( mb_strlen( $this->nome ) > 50) {
+            $erros[] = 'O nome deve possuir no máximo 50 caracteres.';
+        }
+
+        // Verifica se o caminho da imagem, caso preenchido, possui no máximo 200 caracteres
+        if (!  empty( $this->imagem_path ) ) {
+            if ( mb_strlen( $this->imagem_path ) > 200) {
+                $erros[] = 'O caminho da imagem deve possuir no máximo 200 caracteres.';
+            }
         } 
+
         
         // Verifica se a categoria foi preenchida e se possui um id inteiro e não negativo
         if ( empty( $this->categoria ) ) 

@@ -22,18 +22,6 @@ class Cliente {
         return $this->id;
     }
 
-    public function getNome(): ?string {
-        return $this->nome;
-    }
-
-    public function getCpf(): ?string {
-        return $this->cpf;
-    }
-
-    public function getDataNascimento(): ?string {
-        return $this->data_nascimento;
-    }
-
     // Validação
     public function validar() {
         $erros = [];
@@ -44,10 +32,12 @@ class Cliente {
                 $erros[] = 'O id deve ser inteiro e não negativo.';
         }
 
-        // Verifica se o nome foi preenchido
+        // Verifica se o nome foi preenchido e se possui no máximo 50 caracteres
         if ( empty( $this->nome ) ) {
             $erros[] = 'O nome é obrigatório.';
-        } 
+        } else if ( mb_strlen( $this->nome ) > 50) {
+            $erros[] = 'O nome deve possuir no máximo 50 caracteres.';
+        }
         
         // Verifica se o cpf foi preenchidos e se segue o formato definido
         if ( empty( $this->cpf ) ) {
@@ -55,6 +45,7 @@ class Cliente {
         } else if ( ! $this->validarCpf($this->cpf) ) {
             $erros[] = 'O cpf deve estar no formato XXX.XXX.XXX-XX';
         }
+        
         
         // Verifica se a data de nascimento foi preenchida, se segue o formato definido e se é válida
         if ( empty( $this->data_nascimento ) ) {

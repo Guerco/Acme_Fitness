@@ -55,9 +55,6 @@ class Venda{
 
 
     // Setters
-    public function setDescontos(float $descontos) {
-        $this->descontos = $descontos;
-    }
     public function addItens(?Variacao $variacao, ?int $quantidade): void {
         if (! $variacao ) {
             throw new DominioException('A variação é obrigatória.');

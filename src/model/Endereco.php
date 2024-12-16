@@ -28,30 +28,6 @@ class Endereco {
         return $this->id;
     }
 
-    public function getLogradouro(): ?string {
-        return $this->logradouro;
-    }
-
-    public function getCidade(): ?string {
-        return $this->cidade;
-    }
-
-    public function getBairro(): ?string {
-        return $this->bairro;
-    }
-
-    public function getNumero(): ?string {
-        return $this->numero;
-    }
-
-    public function getCep(): ?string {
-        return $this->cep;
-    }
-
-    public function getComplemento(): ?string {
-        return $this->complemento;
-    }
-
      // Validação
      public function validar() {
         $erros = [];
@@ -62,26 +38,39 @@ class Endereco {
                 $erros[] = 'O id deve ser inteiro e não negativo.';
         }
 
-        // Verifica se o logradouro foi preenchido
+        // Verifica se o logradouro foi preenchido e possui no máximo 50 caracteres
         if ( empty( $this->logradouro ) ) {
             $erros[] = 'O logradouro é obrigatório.';
-        } 
+        } else if ( mb_strlen( $this->logradouro ) > 50) {
+            $erros[] = 'O logradouro deve possuir no máximo 50 caracteres.';
+        }
+
         
-        // Verifica se o numero foi preenchido e se é numérico
+        // Verifica se o numero foi preenchido, se é numérico e se possui no máximo 10 caracteres
         if ( empty( $this->numero ) ) {
             $erros[] = 'O numero é obrigatório.';
-        } else if ( ! is_numeric($this->numero)) {
-            $erros[] = 'O número deve possuir apenas valores numéricos';
+        } else {
+            if ( ! is_numeric($this->numero)) {
+                $erros[] = 'O número deve possuir apenas valores numéricos';
+            } else if ( mb_strlen( $this->numero ) > 10) {
+                $erros[] = 'O número deve possuir no máximo 10 caracteres.';
+            }
         }
+
         
-        // Verifica se o bairro foi preenchido
+        // Verifica se o bairro foi preenchido e se possui no máximo 50 caracteres
         if ( empty( $this->bairro ) ) {
             $erros[] = 'O bairro é obrigatório.';
-        } 
+        } else if ( mb_strlen( $this->bairro ) > 50) {
+            $erros[] = 'O bairro deve possuir no máximo 50 caracteres.';
+        }
         
-        // Verifica se a cidade foi preenchida
+        
+        // Verifica se a cidade foi preenchida e se possui no máximo 10 caracteres
         if ( empty( $this->cidade ) ) {
             $erros[] = 'A cidade é obrigatória.';
+        } else if ( mb_strlen( $this->cidade ) > 50) {
+            $erros[] = 'A cidade deve possuir no máximo 50 caracteres.';
         } 
 
         // Verifica se o cep foi preenchido e se segue o formato definido
@@ -90,6 +79,13 @@ class Endereco {
         } else if ( ! $this->validarCep($this->cep) ) {
             $erros[] = 'O cep deve estar no formato XXXXX-XXX';
         }
+
+        // Verifica se o complemento, caso preenchido, possui no máximo 50 caracteres
+        if (!  empty( $this->complemento ) ) {
+            if ( mb_strlen( $this->complemento ) > 50) {
+                $erros[] = 'O complemento deve possuir no máximo 50 caracteres.';
+            }
+        } 
 
         if ( $erros ) {
             $erros_json = json_encode( $erros, JSON_UNESCAPED_UNICODE );

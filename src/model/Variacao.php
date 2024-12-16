@@ -29,28 +29,8 @@ class Variacao {
         return $this->id;
     }
 
-    public function getTamanho(): ?string {
-        return $this->tamanho;
-    }
-
-    public function getPeso(): ?string {
-        return $this->peso;
-    }
-
-    public function getCor(): ?string {
-        return $this->cor;
-    }
-
-    public function getPreco(): ?float {
-        return $this->preco;
-    }
-
     public function getEstoque(): ?int {
         return $this->estoque;
-    }
-
-    public function getProduto(): ?Produto {
-        return $this->produto;
     }
 
     // Validação
@@ -62,6 +42,27 @@ class Variacao {
             if ( $this->id < 0 )
                 $erros[] = 'O id deve ser um inteiro não negativo.';
         }
+
+        // Verifica se o tamanho, caso preenchido, possui no máximo 20 caracteres
+        if ( !  empty( $this->tamanho ) ) {
+            if ( mb_strlen( $this->tamanho ) > 20) {
+                $erros[] = 'O tamanho deve possuir no máximo 20 caracteres.';
+            }
+        } 
+
+        // Verifica se o peso, caso preenchido, possui no máximo 20 caracteres
+        if ( !  empty( $this->peso ) ) {
+            if ( mb_strlen( $this->peso ) > 20) {
+                $erros[] = 'O peso deve possuir no máximo 20 caracteres.';
+            }
+        } 
+
+        // Verifica se a cor, caso preenchido, possui no máximo 20 caracteres
+        if ( !  empty( $this->cor ) ) {
+            if ( mb_strlen( $this->cor ) > 20) {
+                $erros[] = 'A cor deve possuir no máximo 20 caracteres.';
+            }
+        } 
 
         // Verifica se o preco foi preenchido e se seu valor é válido
         if ( empty( $this->preco ) ) {
