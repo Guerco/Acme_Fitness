@@ -171,6 +171,8 @@ class EnderecoController
 
             $endereco->validar();
 
+            $d['id'] = (int) $id;
+
             // Em caso de sucesso na operação
             if ($this->dao->alterar($d)) {
                 $this->enviarResposta(

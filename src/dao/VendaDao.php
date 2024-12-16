@@ -280,7 +280,7 @@ class VendaDao {
             $stmt->execute([
                 'valor_total'=> $ven['valor_total'],
                 'valor_frete'=> $ven['valor_frete'],
-                'descontos'=> $ven['descontos'],
+                'descontos'=> $ven['descontos'] ?? 0.0,
                 'forma_pagamento'=> $ven['forma_pagamento'],
                 'cliente_id'=> $ven['cliente']['id'],
                 'endereco_id'=> $ven['endereco']['id']

@@ -109,8 +109,8 @@ class VariacaoController
                 $d['tamanho'] ?? null,
                 $d['peso'] ?? null,
                 $d['cor'] ?? null,
-                (float) $d['preco'] ?? null,
-                (int) $d['estoque'] ?? null,
+                (float) ( $d['preco'] ?? null ),
+                (int) ( $d['estoque'] ?? null ),
                 $produto
             );
 
@@ -191,6 +191,8 @@ class VariacaoController
             );
 
             $variacao->validar();
+
+            $d['id'] = (int) $id;
 
             // Em caso de sucesso na operação
             if ($this->dao->alterar($d)) {

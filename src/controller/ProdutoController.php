@@ -102,12 +102,15 @@ class ProdutoController
                 null
             );
 
+            date_default_timezone_set('America/Sao_Paulo');
+            $d['data_cadastro'] = $d['data_cadastro'] ?? date('Y-m-d');
+            
             $produto = new Produto(
                 null,
                 $d['nome'] ?? null,
-                $d['imahem_path'] ?? null,
+                $d['imagem_path'] ?? null,
                 $d['descricao'] ?? null,
-                $d['data_cadastro'] ?? null,
+                $d['data_cadastro'],
                 $categoria
             );
 
@@ -167,23 +170,28 @@ class ProdutoController
             $this->verificarId($id);
             
             $this->verificarDados($d);
-
+            
             $categoria = new Categoria(
                 (int) $d['categoria']['id'],
                 null,
                 null
             );
 
+            date_default_timezone_set('America/Sao_Paulo');
+            $d['data_cadastro'] = $d['data_cadastro'] ?? date('Y-m-d');
+            
             $produto = new Produto(
                 (int) $id,
                 $d['nome'] ?? null,
                 $d['imahem_path'] ?? null,
                 $d['descricao'] ?? null,
-                $d['data_cadastro'] ?? null,
+                $d['data_cadastro'],
                 $categoria
             );
 
             $produto->validar();
+
+            $d['id'] = (int) $id;
 
             // Em caso de sucesso na operação
             if ($this->dao->alterar($d)) {

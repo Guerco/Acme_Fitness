@@ -88,7 +88,7 @@ class Endereco {
         if ( empty( $this->cep ) ) {
             $erros[] = 'O cep é obrigatório.';
         } else if ( ! $this->validarCep($this->cep) ) {
-            $erros[] = 'O cep deve estar no formato XXXXX-XX';
+            $erros[] = 'O cep deve estar no formato XXXXX-XXX';
         }
 
         if ( $erros ) {

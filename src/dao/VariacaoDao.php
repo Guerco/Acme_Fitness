@@ -155,9 +155,9 @@ class VariacaoDao {
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
-                'tamanho'=> $var['tamanho'],
-                'peso'=> $var['peso'],
-                'cor'=> $var['cor'],
+                'tamanho'=> $var['tamanho'] ?? null,
+                'peso'=> $var['peso'] ?? null,
+                'cor'=> $var['cor'] ?? null,
                 'preco'=> $var['preco'],
                 'estoque'=> $var['estoque'],
                 'produto_id'=> $var['produto']['id']

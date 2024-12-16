@@ -49,7 +49,7 @@ class CategoriaDao {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
                 'nome'=> $cat['nome'],
-                'descricao'=> $cat['descricao']
+                'descricao'=> $cat['descricao'] ?? null
             ]);
             
             $cat['id'] = $this->pdo->lastInsertId();
@@ -81,7 +81,7 @@ class CategoriaDao {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
                 'nome' => $cat['nome'],
-                'descricao' => $cat['descricao'],
+                'descricao' => $cat['descricao'] ?? null,
                 'id' => $cat['id']
             ]);
             

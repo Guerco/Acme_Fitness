@@ -119,8 +119,8 @@ class ProdutoDao {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
                 'nome'=> $pdt['nome'],
-                'imagem_path'=> $pdt['imagem_path'],
-                'descricao'=> $pdt['descricao'],
+                'imagem_path'=> $pdt['imagem_path'] ?? null,
+                'descricao'=> $pdt['descricao'] ?? null,
                 'data_cadastro'=> $pdt['data_cadastro'],
                 'categoria_id'=> $pdt['categoria']['id'],
             ]);

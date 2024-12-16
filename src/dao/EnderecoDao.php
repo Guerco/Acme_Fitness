@@ -78,7 +78,7 @@ class EnderecoDao {
                 'bairro'=> $end['bairro'],
                 'numero'=> $end['numero'],
                 'cep'=> $end['cep'],
-                'complemento'=> $end['complemento']
+                'complemento'=> $end['complemento'] ?? null
             ]);
             
             $end['id'] = $this->pdo->lastInsertId();

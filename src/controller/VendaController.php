@@ -119,11 +119,13 @@ class VendaController
 
             $venda = new Venda(
                 null,
-                (float) $d['descontos'] ?? null,
+                (float) ( $d['descontos'] ?? null ),
                 $d['forma_pagamento'] ?? null,
                 $cliente,
                 $endereco
             );
+
+            $d['itens'] = $d['itens'] ?? [];
 
             foreach ( $d['itens'] as $it ) {
                 $this->verificarDadosVariacao($it );
