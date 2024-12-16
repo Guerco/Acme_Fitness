@@ -150,13 +150,13 @@ class ClienteController
             );
         }
     }
-    public function atualizar($d)
+    public function atualizar($id, $d)
     {
         try {
-            $this->verificarDados($d, true);
+            $this->verificarId($id);
 
             $cliente = new Cliente(
-                (int) $d['id'],
+                (int) $id,
                 $d['nome'] ?? null,
                 $d['cpf'] ?? null,
                 $d['data_nascimento'] ?? null
@@ -243,37 +243,6 @@ class ClienteController
                 erros: $e->getMessage()
             );
         }
-    }
-
-    /**
-     * Validação dos tipos de dado de entrada
-     * @param mixed $d
-     * @return void
-     */
-    private function verificarDados($d, $verificar_id = false)
-    {
-        $erros = [];
-
-        if ($verificar_id) {
-            // Verifica se o id informado é numérico
-            if (!isset($d['id'])) {
-                $erros[] = 'O id não foi informado.';
-            } else if (!is_numeric($d['id'])) {
-                $erros[] = 'O id informado não é numérico.';
-            }
-        }
-
-        if (!empty($erros)) {
-            $msg = 'Operação não realizada.';
-            
-            $this->enviarResposta(
-                codigo: 400,
-                mensagem: $msg,
-                dados: null,
-                erros: $erros
-            );
-        }
-
     }
 
     /**

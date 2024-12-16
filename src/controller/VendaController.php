@@ -248,18 +248,9 @@ class VendaController
      * @param mixed $d
      * @return void
      */
-    private function verificarDados($d, $verificar_id = false)
+    private function verificarDados( $d )
     {
         $erros = [];
-        
-        // Verifica se o id foi informado e se é numérico
-        if ($verificar_id) {
-            if (!isset($d['id'])) {
-                $erros[] = 'O id não foi informado.';
-            } else if (!is_numeric($d['id'])) {
-                $erros[] = 'O id informado não é numérico.';
-            }
-        }
         
         // Verifica se o cliente foi informado e se ele possui um id numérico
         if ( isset($d['cliente'])) {

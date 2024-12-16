@@ -164,10 +164,12 @@ class VariacaoController
             );
         }
     }
-    public function atualizar($d)
+    public function atualizar($id, $d)
     {
         try {
-            $this->verificarDados($d, true);
+            $this->verificarId( $id );
+
+            $this->verificarDados($d);
 
             $produto = new Produto(
                 (int) $d['produto']['id'],
@@ -179,7 +181,7 @@ class VariacaoController
             );
 
             $variacao = new Variacao(
-                (int) $d['id'],
+                (int) $id,
                 $d['tamanho'] ?? null,
                 $d['peso'] ?? null,
                 $d['cor'] ?? null,
@@ -277,18 +279,9 @@ class VariacaoController
      * @param mixed $d
      * @return void
      */
-    private function verificarDados($d, $verificar_id = false)
+    private function verificarDados( $d )
     {
         $erros = [];
-        
-        // Verifica se o id foi informado e se é numérico
-        if ($verificar_id) {
-            if (!isset($d['id'])) {
-                $erros[] = 'O id não foi informado.';
-            } else if (!is_numeric($d['id'])) {
-                $erros[] = 'O id informado não é numérico.';
-            }
-        }
         
         // Verifica se o produto foi informado e se ele possui um id numérico
         if ( isset($d['produto'])) {

@@ -161,10 +161,12 @@ class ProdutoController
             );
         }
     }
-    public function atualizar($d)
+    public function atualizar($id, $d)
     {
         try {
-            $this->verificarDados($d, true);
+            $this->verificarId($id);
+            
+            $this->verificarDados($d);
 
             $categoria = new Categoria(
                 (int) $d['categoria']['id'],
@@ -173,7 +175,7 @@ class ProdutoController
             );
 
             $produto = new Produto(
-                (int) $d['id'],
+                (int) $id,
                 $d['nome'] ?? null,
                 $d['imahem_path'] ?? null,
                 $d['descricao'] ?? null,
@@ -269,18 +271,9 @@ class ProdutoController
      * @param mixed $d
      * @return void
      */
-    private function verificarDados($d, $verificar_id = false)
+    private function verificarDados( $d )
     {
         $erros = [];
-
-        if ($verificar_id) {
-            // Verifica se o id informado é numérico
-            if (!isset($d['id'])) {
-                $erros[] = 'O id não foi informado.';
-            } else if (!is_numeric($d['id'])) {
-                $erros[] = 'O id informado não é numérico.';
-            }
-        }
 
         if ( isset($d['categoria'])) {
             if (!isset($d['categoria']['id'])) {
