@@ -4,7 +4,7 @@ Projeto realizado como desafio, baseado em um Mini Mundo onde uma empresa de pro
 ---
 
 ### Projeto desenvolvido em:
-- PHP 8,2,4
+- PHP 8.2.4
 - MYSQL
 
 ---
