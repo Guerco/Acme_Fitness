@@ -32,6 +32,9 @@ class Variacao {
     public function getEstoque(): ?int {
         return $this->estoque;
     }
+    public function getPreco(): ?int {
+        return $this->preco;
+    }
 
     // Validação
     public function validar() {
