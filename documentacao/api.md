@@ -1,5 +1,10 @@
 # Informações sobre a API
 
+
+---
+
+## Recursos
+
 ## **Categorias**
 
 - **GET** `/categorias` – Lista todas as categorias.
@@ -7,6 +12,7 @@
 - **POST** `/categorias` – Cria uma nova categoria.
 - **PUT** `/categorias/{id}` – Atualiza uma categoria existente.
 - **DELETE** `/categorias/{id}` – Deleta uma categoria.
+
 
 ### Body para  **POST** e **PUT**
 ``` 
@@ -124,3 +130,36 @@
     ]
 }
 ``` 
+
+---
+
+## Códigos de Status:
+
+**GET**
+- 200 - Lista Retornada com sucesso
+- 404 - Não retornou resultados 
+- 500 - Falha interna na execução da operação
+
+**GET** 
+- 200 - Lista Retornada com sucesso
+- 404 - ID não encontrado 
+- 500 - Falha interna na execução da operação
+
+**POST** 
+- 204 - Criado com sucesso
+- 200 - Não foi criado
+- 400 - Falha devido a dados mal preenchidos 
+- 500 - Falha interna na execução da operação
+
+**PUT**
+- 204 - Alterado com sucesso
+- 400 - Falha devido a dados mal preenchidos 
+- 404 - ID não encontrado
+- 500 - Falha interna na execução da operação
+
+**DELETE**
+- 204 - Alterado com sucesso
+- 404 - ID não encontrado
+- 500 - Falha interna na execução da operação
+
+---
