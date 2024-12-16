@@ -43,6 +43,8 @@ A empresa fictícia oferece uma variedade de produtos fitness, que abrangem desd
 ## API
 Para informações sobre o uso da API, consulte a [documentação da API](/documentacao/api.md).
 
+- *[Coleção de Requisições](/documentacao/request_collection_Insomnia.json)*
+
 ---
 
 ## Validação de Dados
