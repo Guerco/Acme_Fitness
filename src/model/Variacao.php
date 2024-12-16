@@ -74,7 +74,7 @@ class Variacao {
         // Verifica se o estoque foi preenchido e se seu valor é válido
         if ( empty( $this->estoque ) ) {
             $erros[] = 'O estoque é obrigatório.';
-        } else if ( $this-> estoque <= 0 ) {
+        } else if ( $this-> estoque < 0 ) {
             $erros[] = 'O estoque deve ser um inteiro não negativo';
         }
         
