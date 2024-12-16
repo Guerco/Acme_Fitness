@@ -14,7 +14,7 @@ CREATE TABLE acme_fitness.categoria(
   
 CREATE TABLE acme_fitness.produto( 
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
-    nome varchar(200), 
+    nome varchar(50), 
     imagem_path varchar(200),
     descricao TEXT, 
     data_cadastro DATE, 
@@ -26,7 +26,7 @@ CREATE TABLE acme_fitness.variacao(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
     tamanho VARCHAR(20),  
     peso VARCHAR(20), 
-    cor varchar(50), 
+    cor varchar(20), 
     preco DECIMAL(10,2), 
     estoque INT UNSIGNED, 
     produto_id INT NOT NULL, 
@@ -35,9 +35,9 @@ CREATE TABLE acme_fitness.variacao(
   
 CREATE TABLE acme_fitness.endereco( 
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
-    logradouro VARCHAR(200), 
-    cidade VARCHAR(200), 
-    bairro VARCHAR(200), 
+    logradouro VARCHAR(50), 
+    cidade VARCHAR(50), 
+    bairro VARCHAR(50), 
     numero VARCHAR(10), 
     cep CHAR(9), 
     complemento VARCHAR(50) 
