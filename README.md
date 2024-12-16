@@ -22,7 +22,6 @@ Projeto realizado como desafio, baseado em um Mini Mundo onde uma empresa de pro
 | [conexao.php](/src/conexao.php) | Arquivo de configuração da conexão com o banco de dados                  |
 | [index.php](/index.php)     | Entrada principal da API                                                |
 | [rotas.php](/rotas.php)     | Tratamento das rotas de recursos da API                                  |
-                             |
 
 ## Configuração do Ambiente  
 - Configure o arquivo de [conexão](src/conexao.php) com as informações do banco.  
