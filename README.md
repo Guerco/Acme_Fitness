@@ -56,3 +56,8 @@ Para informações sobre a validação dos dados, consulte a [documentação da 
 Para informações sobre os casos de testes, consulte a [documentação de testes](/documentacao/testes.md).
 
 ---
+
+---
+
+Veja também: [versão desenvolvida em framework laravel](https://github.com/Guerco/Acme_Fitness_Laravel)
+---
